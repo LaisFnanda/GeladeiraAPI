@@ -13,7 +13,7 @@ namespace GeladeiraAPI.Controllers
     [Route("[controller]")]
     public class GeladeiraController : ControllerBase
     {
-
+         int id;
          private List<Item> lstgeladeira;
 
         public GeladeiraController()
