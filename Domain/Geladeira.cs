@@ -1,6 +1,6 @@
 ﻿namespace Domain
 {
-    public sealed class Geladeira
+    public sealed class ItemDomain
     {
         private Stack<Andar> _Andares;
 
@@ -8,7 +8,7 @@
 
         // private const int numAndares = 3;
 
-        public Geladeira()
+        public ItemDomain()
         {
                         
             _Andares = new Stack<Andar>();

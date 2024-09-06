@@ -1,6 +1,6 @@
 ﻿using Domain;
 
-Geladeira objGeladeira = new();
+ItemDomain objGeladeira = new();
 
 //Conceito de pilha- Stack
 
