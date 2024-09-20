@@ -1,4 +1,4 @@
-using Domain;
+using Domain.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -16,15 +16,15 @@ namespace GeladeiraAPI.Controllers
     [Route("[controller]")]
     public class ItensController : ControllerBase
     {
-        private readonly IServices<Item> _services;        
+        private readonly IItemServices<Item> _services;        
 
-        public ItensController(IServices<Item> services)
+        public ItensController(IItemServices<Item> services)
         {
             _services = services;                       
         }
 
 
-        [HttpGet, HttpHead]
+        [HttpGet]
         public ActionResult<IEnumerable<Item>> Get()
         {
             try
@@ -39,12 +39,16 @@ namespace GeladeiraAPI.Controllers
        
 
         [HttpGet("{id}")]
-        public ActionResult <Item> Get(int id)
+        public ActionResult GetId(int ItemID)
         {
             try
             {
-                Item item = new Item { ID = id };
-                return _services.ObterItem(item);
+                var item = _services.ObterItem(ItemID);
+
+                if (item == null) 
+                return NotFound();
+
+                return Ok(item);
             }
             catch (Exception ex)
             {
@@ -57,7 +61,7 @@ namespace GeladeiraAPI.Controllers
         {
             try
             {
-                _services.Inserir(item);
+                _services.InserirItem(item);
                 return Created();
             }
             catch (Exception ex)
@@ -81,19 +85,40 @@ namespace GeladeiraAPI.Controllers
             }
         }
 
-        [HttpDelete("Excluir um item")]
-        public ActionResult Delete([FromBody] Item item)
+        [HttpDelete("{id}")]
+        public ActionResult DeleteItem([FromBody] int IdItem)
         {
             try
             {
-                _services.Excluir(item);
-                return Ok("Removido com sucesso!");
+                _services.ExcluirItem(IdItem);
+                return Ok("Item Removido com sucesso!");
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-        }         
+        }
+
+        [HttpDelete("Esvaziar Container")]
+        public ActionResult RemoverTodos(int numAndar, int numContainer)
+        {
+            try
+            {  
+                _services.RemoverTodos(numAndar, numContainer);
+                return Ok("Container esvaziado!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpOptions]
+        public IActionResult ObterOptions()
+        {
+            Response.Headers.Append("Allow", "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS");
+            return Ok();
+        }
 
     }
 

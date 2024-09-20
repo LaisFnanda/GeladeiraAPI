@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace Repository.Interface
 {
@@ -10,8 +6,12 @@ namespace Repository.Interface
     {
         List<TEntity> ObterTodos();
         TEntity ObterItem(TEntity entity);
-        void Inserir(TEntity entity);
+        void InserirItem(TEntity entity);
         void Atualizar(TEntity entity);
-        void Excluir(TEntity entity);
+        //void Excluir(TEntity entity);
+        void AdicionarTodos(TEntity entity);
+        void ExcluirItem(int idItem);
+
+        bool ItemExistente(int idItem);
     }
 }

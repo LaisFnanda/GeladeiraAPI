@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.EntityFrameworkCore;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using Repository.Models;
+using Repository.Context;
+using Services.DIP;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,9 +13,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<ItemContext>(options => {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
+Initializer.Configure(builder.Services,
+                      builder.Configuration.GetConnectionString("DefaultConnection"));
 
 var app = builder.Build();
 

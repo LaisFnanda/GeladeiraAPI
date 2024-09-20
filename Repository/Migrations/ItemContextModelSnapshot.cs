@@ -3,20 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Repository.Models;
+using Repository.Context;
 
 #nullable disable
 
 namespace Repository.Migrations
 {
     [DbContext(typeof(ItemContext))]
-    [Migration("20240903103034_GeladeiMigration")]
-    partial class GeladeiMigration
+    partial class ItemContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,20 +22,21 @@ namespace Repository.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Repository.Models.Item", b =>
+            modelBuilder.Entity("Domain.Item", b =>
                 {
-                    b.Property<int>("IdItem")
+                    b.Property<int?>("IdItem")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("ID_ITEM");
+                        .HasColumnType("int");                       
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdItem"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("IdItem"));
 
-                    b.Property<int?>("Andar")
+                    b.Property<string>("Andar")
+                        .IsRequired()
                         .HasColumnType("int")
                         .HasColumnName("ANDAR");
 
                     b.Property<string>("Classificacao")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)")
@@ -49,6 +47,7 @@ namespace Repository.Migrations
                         .HasColumnName("CONTAINER");
 
                     b.Property<string>("DescricaoItem")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .IsUnicode(false)
                         .HasColumnType("varchar(200)")
@@ -58,11 +57,12 @@ namespace Repository.Migrations
                         .HasColumnType("int")
                         .HasColumnName("POSICAO");
 
-                    b.Property<int?>("Quantidade")
+                    b.Property<int>("Quantidade")
                         .HasColumnType("int")
                         .HasColumnName("QUANTIDADE");
 
-                    b.Property<string>("Unidade")
+                    b.Property<string>("UnidadeQtd")
+                        .IsRequired()
                         .HasMaxLength(5)
                         .IsUnicode(false)
                         .HasColumnType("varchar(5)")

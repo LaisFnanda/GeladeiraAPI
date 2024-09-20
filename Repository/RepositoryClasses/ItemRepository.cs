@@ -1,103 +1,63 @@
-﻿using Repository.Interface;
-using Repository.Models;
+﻿using Repository.Context;
+using Repository.Interface;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Models;
 
 namespace Repository.RepositoryClasses
 {
-    public class ItemRepository : IRepository<ItemModels>
+    public class ItemRepository : IRepository<Item>
     {
         ItemContext _context;
         public ItemRepository(ItemContext context) => _context = context;
-        public void Atualizar(ItemModels item)
+
+        public void AdicionarTodos(Item entity) =>         
+            _context.Items.ToList();
+        
+
+        public void Atualizar(Item item)
+        {           
+            _context.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+            _context.Update(item);
+            _context.SaveChanges();        
+        }
+
+        public void ExcluirItem(int IdItem)
         {
-            try
+            var item = _context.Items.Find(IdItem);
+
+            if (item != null)
             {
-                _context.Update(item);
+                _context.Items.Remove(item);
                 _context.SaveChanges();
-            }
-            catch (SqlException)
-            {
-                throw;
-            }
-            catch (Exception)
-            {
-                throw;
             }
         }
 
-        public void Excluir(ItemModels item)
+        public void InserirItem(Item item)
         {
-            try
-            {
-                _context.Remove(item);
-                _context.SaveChanges();
-            }
-            catch (SqlException)
-            {
-                throw;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public void Inserir(ItemModels item)
-        {
-            try
-            {
                 _context.Add(item);
-                _context.SaveChanges();
-            }
-            catch (SqlException)
-            {
-                throw;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+                _context.SaveChanges();            
         }
 
-        public ItemModels ObterItem(ItemModels item)
+        public bool ItemExistente(int idItem) => _context.Items.Any(e => e.IdItem == idItem);
+
+        public Item ObterItem(Item item)
         {
-            try
-            {
                 return _context.Items.First(i => i.IdItem == item.IdItem ||
                                             i.DescricaoItem == item.DescricaoItem ||
                                             i.Posicao == i.Posicao ||
                                             i.Container == item.Container ||
-                                            i.Andar == item.Andar);
-            }
-            catch (SqlException)
-            {
-                throw;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+                                            i.Andar == item.Andar); 
         }
 
-        public List<ItemModels> ObterTodos()
+        public List<Item> ObterTodos()
         {
-            try
-            {
-                return _context.Items.ToList();
-            }
-            catch (SqlException)
-            {
-                throw;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+                return _context.Items.ToList();  
         }
     }
 }

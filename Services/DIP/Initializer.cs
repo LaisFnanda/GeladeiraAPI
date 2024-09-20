@@ -1,8 +1,8 @@
-﻿using Domain;
+﻿using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Repository.Context;
 using Repository.Interface;
-using Repository.Models;
 using Repository.RepositoryClasses;
 using Services.Interfaces;
 using Services.ServicesClasses;
@@ -21,7 +21,7 @@ namespace Services.DIP
             services.AddDbContext<ItemContext>(options => options.UseSqlServer(connection));
 
             services.AddScoped(typeof(IRepository<Item>), typeof(ItemRepository));
-            services.AddScoped(typeof(IServices<Item>), typeof(ItemService));
+            services.AddScoped(typeof(IItemServices<Item>), typeof(ItemService));
         }
     }
 }
