@@ -8,7 +8,7 @@ namespace Domain.Models
 {
     public class Andar
     {
-        public readonly List<Container> Containers;
+        public  List<Container> Containers;
         public Stack<Andar> _Andares;
 
         public int NumeroAndar { get; private set; }

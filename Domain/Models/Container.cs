@@ -8,7 +8,7 @@ namespace Domain.Models
 {
     public class Container
     {
-        private readonly List<Item> Items;
+        public readonly List<Item> Items;
         private const int itemsLength = 4;
         public Andar _andar;
         public Item _item;

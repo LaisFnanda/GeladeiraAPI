@@ -31,7 +31,7 @@ namespace Domain.Models
 
         }
 
-        public void AdicionarItens(List<Item> itens)
+        public void AdicionarTodosItens(List<Item> itens)
         {
             if (itens.Count > Items.Count)
                 throw new Exception("Quantidade de itens ultrapassa o limite permitido!");
@@ -74,7 +74,7 @@ namespace Domain.Models
             Container? container = new Container().RetornarContainer(numAndar, numContainer, arrAndares);
 
             if (!Convert.ToBoolean(container?.EstaCheio()))
-                AdicionarItens(itens);
+                AdicionarTodosItens(itens);
             else
                 throw new Exception("Container já está cheio!");
         }

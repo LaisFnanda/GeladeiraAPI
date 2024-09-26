@@ -1,4 +1,5 @@
 using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -16,15 +17,15 @@ namespace GeladeiraAPI.Controllers
     [Route("[controller]")]
     public class ItensController : ControllerBase
     {
-        private readonly IItemServices<Item> _services;        
+        private readonly IItemServices<Item> _services;   
 
         public ItensController(IItemServices<Item> services)
         {
             _services = services;                       
         }
 
-
-        [HttpGet]
+        [Authorize]
+        [HttpGet("Obter Itens")]
         public ActionResult<IEnumerable<Item>> Get()
         {
             try

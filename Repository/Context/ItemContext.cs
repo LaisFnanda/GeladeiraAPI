@@ -1,19 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using Domain.Models;
+﻿using Domain.Models;
+using Domain.Resources;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace Repository.Context;
 
 public class ItemContext : DbContext
 {
     public virtual DbSet<Item> Items { get; set; }
+    public DbSet<Usuario> Usuarios { get; set; }
+
+    public ItemContext()
+    {
+
+    }
 
     public ItemContext(DbContextOptions<ItemContext> options)
         : base(options)
     {
     }
-
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
